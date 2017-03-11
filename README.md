@@ -50,29 +50,29 @@ Minuscule but solid state machine for Ruby classes. The only dependency is that 
     include SolidState
 
     states :inactive, :active, :unsubscribed, :disabled do
-      transitions :from => :inactive, :to => :active
-      transitions :from => :active, :to => [:unsubscribed, :disabled]
-      transitions :from => :unsubscribed, :to => :active
+      transitions from: :inactive, to: :active
+      transitions from: :active, to: [:unsubscribed, :disabled]
+      transitions from: :unsubscribed, to: :active
     end
   end
 
   s = Subscriber.new
-  s.state     # => 'inactive'
+  s.state # => 'inactive'
 
   # since we declared transitions, we can now call #{state}! which
   # checks whether the instance can transition to that state and
   # if so, sets the new state and optionally saves the record.
 
-  s.active!   # => true
+  s.active! # => true
 
   s.inactive! # => raises InvalidTransitionError
 
   # this also works outside transition methods, of course.
-  s.reload    # => true
-  s.active?   # => true
+  s.reload  # => true
+  s.active? # => true
 
   s.state = 'inactive'
-  s.valid?    # => false
+  s.valid? # => false
 
   # the last trick this library does is that it optionally lets you
   # declare callback methods that are called whenever a transition
