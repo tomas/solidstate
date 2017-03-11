@@ -62,6 +62,7 @@ module SolidState
 
           if !respond_to?(:valid?) or (valid? && save)
             send("once_#{dest}", from) if respond_to?("once_#{dest}")
+            send("once_not_#{from}", dest) if respond_to?("once_not_#{from}")
             true
           else
             false
@@ -70,6 +71,12 @@ module SolidState
       end
     end
   end
+
+  def once_not_subscribed
+
+  end
+
+  def after
 
   def set_state(new_state)
     return false unless can_transition_to?(new_state)
