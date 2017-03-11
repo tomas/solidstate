@@ -8,8 +8,8 @@ module SolidState
   module ClassMethods
 
     def states(*list, &block)
-      raise "This is not a list of names" unless list.first.is_a?(String)
       list = list.collect(&:to_s)
+      raise "This is not a list of names" unless list.first.respond_to?(:downcase)
 
       @@states = list
       @@state_transitions = {}
@@ -75,6 +75,8 @@ module SolidState
     return false unless can_transition_to?(new_state)
     self.state = new_state
   end
+
+  private
 
   def ensure_valid_transition
     if send("#{STATE_ATTRIBUTE}_changed?") and !can_transition_to?(state)
