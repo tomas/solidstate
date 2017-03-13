@@ -3,6 +3,14 @@ SolidState
 
 Minuscule but solid state machine for Ruby classes. The only dependency is that your model responds to a getter and setter for `state`.
 
+## Installation
+
+In your Gemfile:
+
+    gem 'solidstate'
+
+## Usage
+
 ``` ruby
 
   # simplest example, using just an accessor
@@ -18,7 +26,7 @@ Minuscule but solid state machine for Ruby classes. The only dependency is that 
   # whether the current status is X or Y.
 
   p = Post.new
-  p.state      # => 'draft'
+  p.state      # => 'draft' (default value set in database)
   p.draft?     # true
   p.published? # => false
   p.state = 'published'
@@ -42,6 +50,11 @@ Minuscule but solid state machine for Ruby classes. The only dependency is that 
   p.state = 'deleted'
   p.valid?  # => false
 
+  # you also get scopes for free if the class responds_to the `scope` method
+  
+  Post.published.first # => #<Post ...>
+  Post.draft.count # => 1
+
   # ok, now let's gets get fancier. we're going to declare transitions
   # which will govern the possible directions in which an object's state
   # can move to.
@@ -64,10 +77,11 @@ Minuscule but solid state machine for Ruby classes. The only dependency is that 
   # if so, sets the new state and optionally saves the record.
 
   s.active! # => true
-
+  s.state   # => 'active'
   s.inactive! # => raises InvalidTransitionError
 
   # this also works outside transition methods, of course.
+
   s.reload  # => true
   s.active? # => true
 
