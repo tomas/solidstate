@@ -72,12 +72,6 @@ module SolidState
     end
   end
 
-  def once_not_subscribed
-
-  end
-
-  def after
-
   def set_state(new_state)
     return false unless can_transition_to?(new_state)
     self.state = new_state
