@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "solidstate"
-  s.version     = '0.2.0'
+  s.version     = '0.3.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Tomás Pollak']
   s.email       = ['tomas@forkhq.com']
