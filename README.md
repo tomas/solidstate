@@ -26,11 +26,18 @@ In your Gemfile:
   # whether the current status is X or Y.
 
   p = Post.new
-  p.state      # => 'draft' (default value set in database)
+  p.state      # => nil 
+  p.state = 'draft'
   p.draft?     # true
   p.published? # => false
   p.state = 'published'
   p.published? # => true
+  
+  # you also have access to the list of possible states at Class.states, 
+  # in case you need to enumerate them.
+  # for instance, to populate a select field's options, you'd do something like:
+
+  options = Post.states.map { |st| "<option value="#{st}">#{st}</option>" }.join("\n")
 
   # now, if the model class responds to validates_inclusion_of, it will
   # mark the record invalid if an unknown state is set.
