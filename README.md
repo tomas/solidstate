@@ -37,7 +37,7 @@ In your Gemfile:
   # in case you need to enumerate them.
   # for instance, to populate a select field's options, you'd do something like:
 
-  options = Post.states.map { |st| "<option value="#{st}">#{st}</option>" }.join("\n")
+  options = Post.states.map { |st| "<option value='#{st}'>#{st}</option>" }.join("\n")
 
   # now, if the model class responds to validates_inclusion_of, it will
   # mark the record invalid if an unknown state is set.
