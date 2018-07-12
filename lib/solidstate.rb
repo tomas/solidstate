@@ -57,7 +57,7 @@ module SolidState
 
         define_method("#{dest}!") do
           unless set_state(dest.to_sym)
-            raise InvalidTransition.new("Cannot transition from #{state} to #{dest}")
+            raise InvalidTransitionError.new("Cannot transition from #{state} to #{dest}")
           end
 
           if !respond_to?(:valid?) or (valid? && save)
