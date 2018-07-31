@@ -1,5 +1,4 @@
 require 'active_support/concern'
-require 'active_support/core_ext/module'
 
 module SolidState
   extend ActiveSupport::Concern
@@ -8,10 +7,9 @@ module SolidState
 
   STATE_ATTRIBUTE = :state.freeze
 
-  mattr_accessor :possible_states
-  mattr_accessor :state_transitions
-
   module ClassMethods
+    attr_accessor :possible_states
+    attr_accessor :state_transitions
 
     def states(*list, &block)
       list = list.collect(&:to_s)
