@@ -1,3 +1,6 @@
+require 'active_support/concern'
+require 'active_support/core_ext/module'
+
 module SolidState
   extend ActiveSupport::Concern
 
@@ -5,22 +8,17 @@ module SolidState
 
   STATE_ATTRIBUTE = :state.freeze
 
+  mattr_accessor :possible_states
+  mattr_accessor :state_transitions
+
   module ClassMethods
 
     def states(*list, &block)
       list = list.collect(&:to_s)
       raise "This is not a list of names" unless list.first.respond_to?(:downcase)
 
-      @@states = list
-      @@state_transitions = {}
-
-      def self.states
-        @@states
-      end
-
-      def self.state_transitions
-        @@state_transitions
-      end
+      self.possible_states = list
+      self.state_transitions = {}
 
       if respond_to?(:validates_inclusion_of)
         validates_inclusion_of STATE_ATTRIBUTE, in: list
@@ -52,8 +50,8 @@ module SolidState
       # puts "From #{from} to #{to.join(' or ')}"
       to.each do |dest|
 
-        state_transitions[from.to_sym] ||= []
-        state_transitions[from.to_sym].push(dest.to_sym)
+        self.state_transitions[from.to_sym] ||= []
+        self.state_transitions[from.to_sym].push(dest.to_sym)
 
         define_method("#{dest}!") do
           unless set_state(dest.to_sym)
