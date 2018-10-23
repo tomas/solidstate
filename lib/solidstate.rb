@@ -13,6 +13,8 @@ module SolidState
 
     def states(*list, &block)
       list = list.collect(&:to_s)
+
+      raise "states have already been set! To get list of possible states, call #{name}.possible_states" if self.possible_states
       raise "This is not a list of names" unless list.first.respond_to?(:downcase)
 
       self.possible_states = list
