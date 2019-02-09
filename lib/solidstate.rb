@@ -70,10 +70,22 @@ module SolidState
     end
   end
 
-  def set_state(new_state)
-    return false unless can_transition_to?(new_state)
+  def set_state!(new_state)
+    raise InvalidTransitionError.new("Cannot transition from #{state} to #{dest}") unless can_transition_to?(new_state)
     self.state = new_state
   end
+  
+  def set_state(new_state)
+    set_state!(new_state) rescue false
+  end
+  
+  def update_state(new_state)
+    save if set_state(new_state)
+  end if respond_to?(:_validators)
+
+  def update_state!(new_state)
+    save! if set_state!(new_state)
+  end if respond_to?(:_validators)
 
   private
 
