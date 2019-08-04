@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "activerecord" #, ">= 4.0.0"
   s.add_development_dependency "sqlite3" #, ">= 4.0.0"
   s.add_development_dependency "mongo_mapper" #, ">= 4.0.0"
+  s.add_development_dependency "fuubar" #, ">= 4.0.0"
 
   s.files        = `git ls-files`.split("\n")
   s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact

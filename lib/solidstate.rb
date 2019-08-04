@@ -1,21 +1,22 @@
 require 'active_support/concern'
+require 'active_support/core_ext/class/attribute'
+# require 'active_support/core_ext/class/attribute_accessors'
 
 module SolidState
   extend ActiveSupport::Concern
-
   class InvalidTransitionError < ArgumentError; end
 
   STATE_ATTRIBUTE = :state.freeze
 
   module ClassMethods
-    attr_accessor :possible_states
-    attr_accessor :state_transitions
-
     def states(*list, &block)
       list = list.collect(&:to_s)
 
-      raise "states have already been set! To get list of possible states, call #{name}.possible_states" if self.possible_states
+      raise "states for #{self.name} class have already been set! To get list of possible states, call #{name}.possible_states" if self.respond_to?(:possible_states)
       raise "This is not a list of names" unless list.first.respond_to?(:downcase)
+
+      class_attribute :possible_states
+      class_attribute :state_transitions
 
       self.possible_states = list
       self.state_transitions = {}
@@ -49,7 +50,6 @@ module SolidState
 
       # puts "From #{from} to #{to.join(' or ')}"
       to.each do |dest|
-
         self.state_transitions[from.to_sym] ||= []
         self.state_transitions[from.to_sym].push(dest.to_sym)
 
@@ -74,11 +74,11 @@ module SolidState
     raise InvalidTransitionError.new("Cannot transition from #{state} to #{dest}") unless can_transition_to?(new_state)
     self.state = new_state
   end
-  
+
   def set_state(new_state)
     set_state!(new_state) rescue false
   end
-  
+
   def update_state(new_state)
     save if set_state(new_state)
   end if respond_to?(:_validators)
