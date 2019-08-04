@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name        = "solidstate"
-  s.version     = '0.4.3'
+  s.name        = 'solidstate'
+  s.version     = '0.4.4'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Tomás Pollak']
   s.email       = ['tomas@forkhq.com']
