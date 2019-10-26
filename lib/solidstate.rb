@@ -26,8 +26,7 @@ module SolidState
       end
 
       scope :with_state, lambda { |state|
-        return query if state.blank?
-        where(STATE_ATTRIBUTE => state)
+        where(STATE_ATTRIBUTE => state) unless state.blank?
       } if respond_to?(:scope)
 
       list.each do |s|
